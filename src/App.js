@@ -6,25 +6,24 @@ import UserList from "./pages/UserList";
 import User from "./pages/User";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
+import Login from "./pages/Login";
+import GeneralLayout from "./components/GeneralLayout";
 function App() {
   return (
     <>
-      <Topbar></Topbar>
-      <div className="flex gap-3">
-        <Sidebar></Sidebar>
-        <div className="flex-[4]">
-          <Routes>
-            <Route path="/" element={<Home></Home>}></Route>
-            <Route path="/user" element={<UserList></UserList>}></Route>
-            <Route path="/user/:id" element={<User></User>}></Route>
-            <Route
-              path="/product-list/"
-              element={<ProductList></ProductList>}
-            ></Route>
-            <Route path="/product/:id" element={<Product></Product>}></Route>
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        <Route element={<GeneralLayout></GeneralLayout>}>
+          <Route path="/" element={<Home></Home>}></Route>
+          <Route path="/user" element={<UserList></UserList>}></Route>
+          <Route path="/user/:id" element={<User></User>}></Route>
+          <Route
+            path="/product-list/"
+            element={<ProductList></ProductList>}
+          ></Route>
+          <Route path="/product/:id" element={<Product></Product>}></Route>
+        </Route>
+        <Route path="/login" element={<Login></Login>}></Route>
+      </Routes>
     </>
   );
 }
