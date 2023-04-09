@@ -9,7 +9,7 @@ const GeneralLayout = () => {
       <Topbar></Topbar>
       <div className="flex gap-3">
         <Sidebar></Sidebar>
-        <div className="flex-[4]">
+        <div className="flex-[4] px-3">
           <Outlet />
         </div>
       </div>

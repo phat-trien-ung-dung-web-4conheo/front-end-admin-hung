@@ -6,7 +6,7 @@ import WidgetSm from "../components/WidgetSm";
 import { userData } from "../data";
 const Home = () => {
   return (
-    <div className="flex flex-col gap-4 px-3">
+    <div className="flex flex-col gap-4 px-3 ">
       <div className="grid grid-cols-3 gap-6 ">
         <FeaturedInfo></FeaturedInfo>
         <FeaturedInfo></FeaturedInfo>
@@ -18,7 +18,7 @@ const Home = () => {
         grid
         dataKey="Active user"
       ></Chart>
-      <div className="flex gap-4">
+      <div className="flex gap-4 pb-4">
         <WidgetSm></WidgetSm>
         <WidgetLg></WidgetLg>
       </div>
