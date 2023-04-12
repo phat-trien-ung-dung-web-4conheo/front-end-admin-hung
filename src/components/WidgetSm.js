@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { adminRequest } from "../requestMethods";
 import Loading from "./Loading/Loading";
-
+import handleLoading from "../redux/loadingSlice";
 const WidgetSm = () => {
-  const [loading, setLoading] = useState(true);
 
   const [users, setUsers] = useState([]);
-  const admin = useSelector((state) => state.user.login.currentUser);
-
+  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.loading.isLoading)
   useEffect(() => {
     const getUsers = async () => {
       try {
         const res = await adminRequest.get("users/");
         setUsers(res.data);
-        setLoading(false);
+        dispatch(handleLoading(false))
       } catch (err) {
         console.log("err widgetSm", err);
-        setLoading(false);
+        dispatch(handleLoading(false));
       }
     };
     getUsers();
@@ -27,16 +25,16 @@ const WidgetSm = () => {
   console.log("users", users);
   return (
     <div className="flex-1 shadow-[0px_1px_9px_-1px_#000000] p-4">
-      <h2 className="text-xl font-semibold pb-3">New Join Members</h2>
-      <ul className="flex flex-col gap-3 justify-center ">
-        <div className="flex justify-center items-center">
+      <h2 className="pb-3 text-xl font-semibold">New Join Members</h2>
+      <ul className="flex flex-col justify-center gap-3 ">
+        <div className="flex items-center justify-center">
           {loading && <Loading></Loading>}
         </div>
         {!loading &&
-          users.map((user) => (
-            <li className="flex gap-2 items-center ">
+          users.map((user, idx) => (
+            <li key={idx} className="flex items-center gap-2 ">
               <img
-                className="rounded-full h-10 w-10 cursor-pointer"
+                className="w-10 h-10 rounded-full cursor-pointer"
                 src={
                   user.img ||
                   "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"

@@ -7,7 +7,7 @@ const BASE_URL = "http://localhost:3003/api/";
 // // const BASE_URL = "https://webdevis207.herokuapp.com/api";
 // >>>>>>> feature/user/login
 const TOKEN = JSON?.parse(
-  JSON.parse(localStorage?.getItem("persist:root"))?.user
+  JSON?.parse(localStorage?.getItem("persist:root"))?.user
 )?.login?.currentUser?.accessToken;
 
 export const publicRequest = axios.create({
