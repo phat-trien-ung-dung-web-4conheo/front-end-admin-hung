@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { productRows } from "../data";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { adminRequest, publicRequest } from "../requestMethods";
 
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await publicRequest.get("products/");
+        console.log(res);
+        setData(res.data);
+      } catch (err) {
+        console.log("err product", err);
+      }
+    };
+    getProducts();
+  }, []);
+  console.log("data", data);
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
   const columns = [
-    { field: "id", headerName: "ID", width: 80 },
+    { field: "_id", headerName: "ID", width: 80 },
     {
-      field: "product",
+      field: "title",
       headerName: "Product",
       width: 250,
       renderCell: (params) => {
@@ -20,15 +34,15 @@ const ProductList = () => {
           <div className="flex items-center gap-2">
             <img
               className="rounded-full h-10 w-10 cursor-pointer"
-              src={params.row.avatar}
+              src={params.row.img[0]}
               alt=""
             />
-            {params.row.product}
+            {params.row.title}
           </div>
         );
       },
     },
-    { field: "stock", headerName: "Stock", width: 80 },
+    { field: "inStock", headerName: "Stock", width: 80 },
     {
       field: "status",
       headerName: "status",
@@ -61,17 +75,28 @@ const ProductList = () => {
       },
     },
   ];
-
+  const navigate = useNavigate();
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-end ">
+        <p
+          className="text-white inline-block rounded-lg cursor-pointer  hover:shadow-xl  px-3 py-2 bg-blue-500 hover:bg-blue-400 transition-all duration-150"
+          onClick={() => navigate("/newproduct")}
+        >
+          Create Product
+        </p>
+      </div>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={data}
+          getRowId={(row) => row._id}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </div>
     </div>
   );
 };

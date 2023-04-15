@@ -8,6 +8,7 @@ import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
 import GeneralLayout from "./components/GeneralLayout";
+import NewProduct from "./pages/NewProduct";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
             element={<ProductList></ProductList>}
           ></Route>
           <Route path="/product/:id" element={<Product></Product>}></Route>
+          <Route path="/newproduct" element={<NewProduct></NewProduct>}></Route>
         </Route>
         <Route path="/login" element={<Login></Login>}></Route>
       </Routes>
