@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { userRows } from "../data";
 import { Link } from "react-router-dom";
+import { adminRequest } from "../requestMethods";
 
 const UserList = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await adminRequest.get("users/");
+        console.log(res.data, "res");
+        await setData(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUsers();
+  }, []);
+
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "_id", headerName: "ID", width: 70 },
     {
-      field: "user",
+      field: "username",
       headerName: "User",
       width: 130,
       renderCell: (params) => {
@@ -66,9 +80,10 @@ const UserList = () => {
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={data}
+        getRowId={(row) => row._id}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={4}
+        rowsPerPageOptions={[4]}
         checkboxSelection
         disableRowSelectionOnClick
       />

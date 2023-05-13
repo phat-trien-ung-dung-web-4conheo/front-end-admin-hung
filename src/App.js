@@ -22,6 +22,7 @@ function App() {
   return (
     <>
       <Routes>
+        {!admin && <Route path="/login" element={<Login></Login>}></Route>}
         {admin && (
           <Route element={<GeneralLayout></GeneralLayout>}>
             <Route path="/" element={<Home />} />
@@ -39,7 +40,6 @@ function App() {
             <Route path="/product/:id" element={<Product></Product>}></Route>
           </Route>
         )}
-        {!admin && <Route path="/login" element={<Login></Login>}></Route>}
       </Routes>
     </>
   );

@@ -23,7 +23,7 @@ const Sidebar = () => {
     {
       title: "Quick menu",
       list: [
-        { name: "Users", icon: <PeopleIcon />,  navigate: "/user" },
+        { name: "User", icon: <PeopleIcon />, navigate: "/user" },
         { name: "Products", icon: <Inventory2Icon />, navigate: "/products" },
         {
           name: "Transactions",
@@ -38,7 +38,11 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const handleClickActive = (e) => {
     setText(e.target.innerText);
-    navigate(`/${e.target.innerText === "Home" ? "" : e.target.innerText.toLowerCase()}`);
+    navigate(
+      `/${
+        e.target.innerText === "Home" ? "" : e.target.innerText.toLowerCase()
+      }`
+    );
   };
   return (
     <div className="flex-1 p-4 bg-[#fcfbff] ">
