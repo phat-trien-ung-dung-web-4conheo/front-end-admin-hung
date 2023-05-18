@@ -57,7 +57,7 @@ const NewProduct = () => {
       price: value.price,
       desc: value.desc,
       size: (() => {
-        const result = value.size.replace(/[^\d\s]/g, "").replace(/\s+/g, " ");
+        const result = value?.size.replace(/[^\d\s]/g, "").replace(/\s+/g, " ");
         const array = result
           .split(" ")
           .filter((value, index, self) => self.indexOf(value) === index);
@@ -68,7 +68,7 @@ const NewProduct = () => {
         return array;
       })(),
       categories: (() => {
-        const array = value.categories.split(/,/).map((word) => word.trim());
+        const array = value.categories.split(/,| /).map((word) => word.trim());
         return array;
       })(),
     };
