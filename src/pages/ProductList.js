@@ -4,24 +4,22 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { productRows } from "../data";
 import { Link, useNavigate } from "react-router-dom";
 import { adminRequest, publicRequest } from "../requestMethods";
+import { removeProduct } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProduct } from "../redux/productSlice";
 
 const ProductList = () => {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await publicRequest.get("products/");
-        console.log(res);
-        setData(res.data);
-      } catch (err) {
-        console.log("err product", err);
-      }
-    };
-    getProducts();
+    dispatch(fetchProduct());
   }, []);
-  console.log("data", data);
+  const products = useSelector((state) => state.product.products);
+  // localStorage.clear();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    removeProduct(dispatch, id);
+
+    console.log("remove product success", id);
   };
   const columns = [
     { field: "_id", headerName: "ID", width: 80 },
@@ -61,14 +59,14 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <div className="flex items-center gap-5">
-            <Link to={"/product/" + params.row.id}>
+            <Link to={"/product/" + params.row._id}>
               <button className="p-2 py-1 border rounded-lg bg-blue-500 text-white">
                 Edit
               </button>
             </Link>
             <DeleteOutlineIcon
               className="cursor-pointer text-red-500"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             ></DeleteOutlineIcon>
           </div>
         );
@@ -88,7 +86,7 @@ const ProductList = () => {
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={data}
+          rows={products}
           getRowId={(row) => row._id}
           columns={columns}
           pageSize={5}
